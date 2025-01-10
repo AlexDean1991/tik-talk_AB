@@ -17,20 +17,21 @@ export class LoginPageComponent {
     password: new FormControl(null, Validators.required),
   })
 
+  constructor() {
+
+
+  }
+
+
 onSubmit() {
   if (this.form.valid) {
 
-    console.log(this.form.value);
 
 //@ts-ignore
-    this.authService.login(this.form.value).subscribe({
-      next: (res) => {
-        console.log('OK', res);
-      },
-      error: (err) => {
-        console.error('FALSE', err);
-      },
-    });
+    this.authService.login(this.form.value)
+      .subscribe(res => {
+        console.log(res);
+    })
   }
 }
 }
