@@ -5,7 +5,6 @@ import {ProfileCardComponent} from './common-ui/profile-card/profile-card.compon
 @Component({
   selector: 'app-root',
   imports: [ProfileCardComponent, RouterOutlet],
-
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'
