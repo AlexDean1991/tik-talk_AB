@@ -1,10 +1,14 @@
 import {Component, Input} from '@angular/core';
 import {Profile} from '../../../data/interface/profile.interface';
+import {ImgUrlPipe} from '../../../helpers/pipes/img-url.pipe';
 
 @Component({
   selector: 'app-subscriber-card',
-  imports: [],
+  imports: [
+    ImgUrlPipe
+  ],
   templateUrl: './subscriber-card.component.html',
+  standalone: true,
   styleUrl: './subscriber-card.component.scss'
 })
 export class SubscriberCardComponent {
