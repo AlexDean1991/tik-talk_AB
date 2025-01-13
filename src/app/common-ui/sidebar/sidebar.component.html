@@ -19,10 +19,12 @@
 
 <p class="medium-text mb20">Подписчики</p>
 
-<app-subscriber-card></app-subscriber-card>
+<!--<app-subscriber-card></app-subscriber-card>-->
 
 <div class="mt20 to-subscribers">
   <a
-    [routerLink]="'"
-  ></a>
+    [routerLink]="['/subscribers']"
+    class="to-subscribers-link medium-text"
+  >Все подписчики</a>
+  <svg icon="Arrow" class="to-subscribers-icon"></svg>
 </div>
