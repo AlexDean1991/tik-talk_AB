@@ -23,15 +23,18 @@ export class ProfileService {
       tap(res => this.me.next(res))
     );
   }
+
+  getSubscribersShortList() {
+    return this.http.get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers`);
+  }
+
 }
 
   // getAccount(id: string) {
   //   return this.http.get<Profile>(`${this.baseApiUrl}/account/${id}`)
   // }
 
-  getSubscribersShortList() {
-    return this.http.get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers`);
-  }
+
 
   // patchProfile(profile: Partial<Profile>) {
   //   return this.patch<Profile>(
