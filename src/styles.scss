@@ -1,5 +1,5 @@
 @use "fonts";
-@import "margins";
+@use "margins";
 
 :root {
   --dark-color: #000000;
@@ -19,6 +19,7 @@
 
 
 body {
+  height: 100dvh;
   background-color: var(--dark-color);
   color: var(--light-color);
   font-family: "JetBrains Mono";
