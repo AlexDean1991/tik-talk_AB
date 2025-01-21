@@ -5,7 +5,6 @@
 
 <nav>
   <ul class="main-menu-list">
-
     <li *ngFor="let menuItem of menuItems">
       <button class="menu-item">
         <svg [icon]="menuItem.icon"></svg>
@@ -43,7 +42,6 @@
     }
 
     <div class="medium-text username-text">{{ me.username }}</div>
-
     <a [routerLink]="['home']"
        class="settings-btn">
       <svg icon="settings"></svg>
