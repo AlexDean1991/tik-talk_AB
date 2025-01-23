@@ -1,10 +1,11 @@
-import { Directive, HostBinding, HostListener } from '@angular/core';
+import {Directive, EventEmitter, HostBinding, HostListener, Output} from '@angular/core';
 
 @Directive({
   standalone: true,
   selector: '[dnd]'
 })
 export class DndDirective {
+  @Output() fileDropped = new EventEmitter<File>();
 
   @HostBinding('class.fileover')
   fileover = false;
@@ -13,7 +14,7 @@ export class DndDirective {
   onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    console.log(event);
+
     this.fileover = true;
   }
 
@@ -21,7 +22,7 @@ export class DndDirective {
   onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    console.log(event);
+
     this.fileover = false;
   }
 
@@ -29,7 +30,9 @@ export class DndDirective {
   onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    console.log(event);
+
     this.fileover = false;
+
+    this.fileDropped.emit(event.dataTransfer?.files[0]);
   }
 }
