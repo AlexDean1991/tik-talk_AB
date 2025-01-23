@@ -1,12 +1,14 @@
 import {Component, signal} from '@angular/core';
 import {ImgUrlPipe} from '../../../helpers/pipes/img-url.pipe';
 import {SvgIconComponent} from '../../../common-ui/svg-icon/svg-icon.component';
+import {DndDirective} from '../../../common-ui/directives/dnd.directive';
 
 @Component({
   selector: 'app-avatar-upload',
   imports: [
     SvgIconComponent,
     ImgUrlPipe,
+    DndDirective,
   ],
   templateUrl: './avatar-upload.component.html',
   standalone: true,
