@@ -21,8 +21,7 @@ import {PostInputComponent} from './post-input/post-input.component';
     // NgForOf,
     // SubscriberCardComponent,
     ImgUrlPipe,
-    PostFeedComponent,
-    PostInputComponent
+    PostFeedComponent
   ],
   templateUrl: './profile-page.component.html',
   standalone: true,
