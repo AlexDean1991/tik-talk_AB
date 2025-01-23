@@ -6,6 +6,7 @@ import {SvgIconComponent} from '../../../common-ui/svg-icon/svg-icon.component';
   selector: 'app-avatar-upload',
   imports: [
     SvgIconComponent,
+    ImgUrlPipe,
   ],
   templateUrl: './avatar-upload.component.html',
   standalone: true,
