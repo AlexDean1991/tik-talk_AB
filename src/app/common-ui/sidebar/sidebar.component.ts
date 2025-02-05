@@ -47,6 +47,11 @@ export class SidebarComponent {
         label: 'Поиск',
         icon: 'search',
         link: 'search'
+      },
+      {
+        label: 'MyPage',
+        icon: 'search',
+        link: 'mypage'
       }
     ]
 
