@@ -19,6 +19,8 @@
     "module": "ES2022"
   },
   "angularCompilerOptions": {
+    "enableTemplateExpansionFunctions": true,
+    "enableExtendedTemplateDiagnostics": true,
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
