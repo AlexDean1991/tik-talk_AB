@@ -1,4 +1,4 @@
-import {Component, HostBinding, inject, input, Renderer2} from '@angular/core';
+import {Component, EventEmitter, HostBinding, inject, input, Output, Renderer2} from '@angular/core';
 import {AvatarCircleComponent} from '../../../common-ui/avatar-circle/avatar-circle.component';
 import {ProfileService} from '../../../data/services/profile.service';
 import {ImgUrlPipe} from '../../../helpers/pipes/img-url.pipe';
@@ -22,11 +22,13 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './post-input.component.scss'
 })
 export class PostInputComponent {
-  r2:Renderer2 = inject(Renderer2)
+  r2: Renderer2 = inject(Renderer2)
   postService = inject(PostService)
   isCommentInput = input(false)
   postId = input<number>(0)
   profile = inject(ProfileService).me
+
+  @Output() created = new EventEmitter()
 
   @HostBinding('class.comment')
   get isComment() {
@@ -46,16 +48,25 @@ export class PostInputComponent {
     if (!this.postText) return
 
     if (this.isCommentInput()) {
-      firstValueFrom(this.postService.createComment( {
+      firstValueFrom(this.postService.createComment({
         text: this.postText,
         authorId: this.profile()!.id,
         postId: this.postId()
-      })).then(() => {
-        this.postText = ''
-      })
-      return;
+      }))
+        .then(() => {
+          this.postText = ''
+          this.created.emit();
+        });
+    } else {
+      firstValueFrom(this.postService.createPost({
+        title: this.postText,
+        content: this.postText,
+        authorId: this.profile()!.id
+      }))
+        .then(() => {
+          this.postText = '';
+          this.created.emit();
+        });
     }
-
-
   }
 }
