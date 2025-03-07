@@ -7,15 +7,17 @@ import {PostInputComponent} from '../post-input/post-input.component';
 import {CommentComponent} from './comment/comment.component';
 import {PostService} from '../../../data/services/post.service';
 import {firstValueFrom} from 'rxjs';
+import {TimeOfComments} from '../../../helpers/pipes/time-of-comments.pipe';
 
 @Component({
   selector: 'app-post',
   imports: [
     AvatarCircleComponent,
-    DatePipe,
+    // DatePipe,
     SvgIconComponent,
     PostInputComponent,
-    CommentComponent
+    CommentComponent,
+    TimeOfComments
   ],
   templateUrl: './post.component.html',
   standalone: true,
