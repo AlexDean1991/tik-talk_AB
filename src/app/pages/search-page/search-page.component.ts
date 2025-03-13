@@ -3,6 +3,7 @@ import {ProfileCardComponent} from '../../common-ui/profile-card/profile-card.co
 import {ProfileService} from '../../data/services/profile.service';
 import {Profile} from '../../data/interface/profile.interface';
 import {ProfileFiltersComponent} from './profile-filters/profile-filters.component';
+import {debounceTime, fromEvent} from 'rxjs';
 
 @Component({
   selector: 'app-search-page',
@@ -23,5 +24,33 @@ export class SearchPageComponent implements OnInit {
 
   ngOnInit() {
     this.profileService.filterProfiles({}).subscribe()
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    // Здесь используем fromEvent для оптимизации через debounceTime
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(200))  // Ждем 200 мс после последнего события
+      .subscribe(() => {
+        this.resizeFeed();
+      });
+  }
+
+
+  ngAfterViewInit() {
+    this.resizeFeed();
+
+    fromEvent(window, 'resize')
+      .subscribe(() => {
+        console.log
+      })
+  }
+
+  resizeFeed() {
+    const {top} = this.hostElement.nativeElement.getBoundingClientRect();
+
+    const height = window.innerHeight - top - 3 - 3
+
+    this.r2.setStyle(this.hostElement.nativeElement, 'height', `${height}px`)
   }
 }
