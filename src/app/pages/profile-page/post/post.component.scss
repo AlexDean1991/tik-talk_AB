@@ -1,6 +1,7 @@
 :host {
   background: var(--dark-color);
   border: 1px solid var(--light-color);
+  border-radius: 5px;
   padding: 20px;
   display: grid;
   grid-template-columns: 32px 1fr;
@@ -45,4 +46,9 @@
   grid-gap: 8px;
   padding: 8px 0;
   scrollbar-width: none;
+}
+
+app-post-input.p_input.comment {
+  border: 1px dashed;
+  z-index: 9;
 }
