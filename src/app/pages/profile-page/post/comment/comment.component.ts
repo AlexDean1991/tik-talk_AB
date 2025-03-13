@@ -8,7 +8,6 @@ import {TimeOfComments} from '../../../../helpers/pipes/time-of-comments.pipe';
   selector: 'app-comment',
   imports: [
     AvatarCircleComponent,
-    DatePipe,
     TimeOfComments
   ],
   templateUrl: './comment.component.html',

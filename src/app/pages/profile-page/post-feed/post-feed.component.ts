@@ -48,7 +48,7 @@ export class PostFeedComponent {
   resizeFeed() {
     const {top} = this.hostElement.nativeElement.getBoundingClientRect();
 
-    const height = window.innerHeight - top - 24 - 24
+    const height = window.innerHeight - top - 3 - 3
 
     this.r2.setStyle(this.hostElement.nativeElement, 'height', `${height}px`)
   }
