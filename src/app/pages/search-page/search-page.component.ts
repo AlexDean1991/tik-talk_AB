@@ -23,27 +23,17 @@ export class SearchPageComponent implements OnInit {
   r2 = inject(Renderer2);
 
   ngOnInit() {
-    this.profileService.filterProfiles({}).subscribe()
-  }
+    this.profileService.filterProfiles({}).subscribe();
 
-  @HostListener('window:resize')
-  onWindowResize() {
-    // Здесь используем fromEvent для оптимизации через debounceTime
     fromEvent(window, 'resize')
-      .pipe(debounceTime(200))  // Ждем 200 мс после последнего события
+      .pipe(debounceTime(200))
       .subscribe(() => {
         this.resizeFeed();
       });
   }
 
-
   ngAfterViewInit() {
     this.resizeFeed();
-
-    fromEvent(window, 'resize')
-      .subscribe(() => {
-        console.log
-      })
   }
 
   resizeFeed() {
@@ -51,6 +41,6 @@ export class SearchPageComponent implements OnInit {
 
     const height = window.innerHeight - top - 3 - 3
 
-    this.r2.setStyle(this.hostElement.nativeElement, 'height', `${height}px`)
+    this.r2.setStyle(this.hostElement.nativeElement, 'height', `${height}px`);
   }
 }
