@@ -12,5 +12,5 @@ import {ImgUrlPipe} from '../../../helpers/pipes/img-url.pipe';
   styleUrl: './subscriber-card.component.scss'
 })
 export class SubscriberCardComponent {
-    @Input() profile!: Profile
+  @Input() profile!: Profile
 }

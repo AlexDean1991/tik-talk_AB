@@ -6,6 +6,7 @@ import {LayoutComponent} from './common-ui/layout/layout.component';
 import {canActivateAuth} from './auth/access.guard';
 import {SettingsPageComponent} from './pages/settings-page/settings-page.component';
 import {MyPageComponent} from './pages/my-page/my-page.component';
+import {SubscribersComponent} from './pages/subscribers/subscribers.component';
 
 // @ts-ignore
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
       {path: 'settings', component: SettingsPageComponent},
       {path: 'search', component: SearchPageComponent},
       {path: 'mypage', component: MyPageComponent},
+      {path: 'subscribers', component: SubscribersComponent},
     ],
     canActivate: [canActivateAuth]
   },

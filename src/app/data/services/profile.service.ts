@@ -38,6 +38,13 @@ export class ProfileService {
     )
   }
 
+  getAllSubscribers() {
+    return this.http.get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers/`)
+      .pipe(
+        map(res => res.items)
+      );
+  }
+
   patchProfile(profile: Partial<Profile>) {
     return this.http.patch<Profile>(
       `${this.baseApiUrl}/account/me`,
