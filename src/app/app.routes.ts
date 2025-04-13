@@ -7,7 +7,10 @@ import {canActivateAuth} from './auth/access.guard';
 import {SettingsPageComponent} from './pages/settings-page/settings-page.component';
 import {MyPageComponent} from './pages/my-page/my-page.component';
 import {SubscribersComponent} from './pages/subscribers/subscribers.component';
+import {ChatsPageComponent} from './pages/chats/chats.component';
+import {chatsRoutes} from './pages/chats/chatsRoutes';
 
+// @ts-ignore
 // @ts-ignore
 export const routes: Routes = [
   {
@@ -18,6 +21,10 @@ export const routes: Routes = [
       {path: 'search', component: SearchPageComponent},
       {path: 'mypage', component: MyPageComponent},
       {path: 'subscribers', component: SubscribersComponent},
+      {path:
+          'chats',
+        loadChildren: () => chatsRoutes
+      },
     ],
     canActivate: [canActivateAuth]
   },

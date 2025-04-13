@@ -41,7 +41,7 @@ export class SidebarComponent {
       {
         label: 'Чаты',
         icon: 'chat',
-        link: 'chat'
+        link: 'chats'
       },
       {
         label: 'Поиск',
