@@ -7,7 +7,7 @@
 
 <div class="last-message-wrapper">
   <div class="chat_user medium-text">{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</div>
-  <div class="medium-text">{{ chat.message }}</div>
+  <div class="medium-text">{{ chat.message ?? '...' }}</div>
 </div>
 
 }

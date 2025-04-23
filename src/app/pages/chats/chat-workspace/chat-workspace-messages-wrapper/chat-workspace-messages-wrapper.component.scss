@@ -3,3 +3,20 @@
   padding: 16px 20px;
   grid-template-rows: 1fr min-content;
 }
+
+.messages-wrapper {
+  display: grid;
+  grid-gap: 12px;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 650px;
+
+  /* Скрываем скроллбар в разных браузерах */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE и Edge */
+
+  &::-webkit-scrollbar {          /* Chrome, Safari, Opera */
+    display: none;
+  }
+}
+

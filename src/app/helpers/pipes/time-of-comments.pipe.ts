@@ -12,8 +12,11 @@ export class TimeOfComments implements PipeTransform {
     const date = new Date(value);
     if (isNaN(date.getTime())) return 'только что';
 
+    // Преобразуем время к локальному времени (в данном случае для Москвы, UTC+3)
+    const localDate = new Date(date.getTime() + 3 * 60 * 60 * 1000); // Добавляем 3 часа
+
     const now = new Date();
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    const seconds = Math.floor((now.getTime() - localDate.getTime()) / 1000);
 
     if (seconds < 60) {
       return `${seconds} секунд назад`;
