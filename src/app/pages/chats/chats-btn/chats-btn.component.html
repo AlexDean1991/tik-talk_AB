@@ -8,6 +8,11 @@
 <div class="last-message-wrapper">
   <div class="chat_user medium-text">{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</div>
   <div class="medium-text">{{ chat.message ?? '...' }}</div>
+  @if (chat.unreadMessages > 0) {
+  <div class="unread">
+  <span class="unread-messages">Непрочитанных сообщений: {{ chat.unreadMessages }}</span>
+  </div>
+  }
 </div>
 
 }

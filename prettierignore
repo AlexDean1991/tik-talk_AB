@@ -1,0 +1,11 @@
+# Игнорировать всё в папке build
+build/
+
+# Не форматировать файлы из node_modules
+node_modules/
+
+# Оставить README как есть
+README.md
+
+# Игнорировать файл со старой версткой
+src/old-html/legacy.html

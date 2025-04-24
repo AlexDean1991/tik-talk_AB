@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, signal} from '@angular/core';
+import {Component, computed, ElementRef, inject, input, signal, ViewChild} from '@angular/core';
 import {ChatWorkspaceMessageComponent} from './chat-workspace-message/chat-workspace-message.component';
 import {MessageInputComponent} from '../../../../common-ui/message-input/message-input.component';
 import {ChatsService} from '../../../../data/services/chats.service';
@@ -17,6 +17,7 @@ import {CommonModule} from '@angular/common';
   styleUrl: './chat-workspace-messages-wrapper.component.scss'
 })
 export class ChatWorkspaceMessagesWrapperComponent {
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
   chatService = inject(ChatsService)
 
   chat = input.required<Chat>()
@@ -68,6 +69,23 @@ export class ChatWorkspaceMessagesWrapperComponent {
   ngOnDestroy(): void {
     this.refreshChat?.unsubscribe();
   }
+
+  private scrollToBottom(): void {
+    try {
+      this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Не удалось заскроллить:', err)
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollToBottom();
+  }
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+
 
   async onSendMessage(messageText: string) {
     await firstValueFrom(this.chatService.sendMessage(this.chat().id, messageText));

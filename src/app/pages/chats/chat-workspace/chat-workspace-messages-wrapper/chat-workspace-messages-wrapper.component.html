@@ -1,12 +1,13 @@
-<div class="messages-wrapper">
-  <div *ngFor="let groupKey of objectKeys(groupMessages())">
+<div #messagesContainer class="messages-wrapper">
+  @for (groupKey of objectKeys(groupMessages()); track groupKey) {
     <div class="message-group">
-      <h3>{{ groupKey }}</h3>
-      <div *ngFor="let message of groupMessages()[groupKey]">
+      <div class="title-wrapper"><h3 class="messages_group-title">{{ groupKey }}</h3></div>
+    @for (message of groupMessages()[groupKey]; track message) {
         <app-chat-workspace-message [message]="message"></app-chat-workspace-message>
-      </div>
+    }
     </div>
-  </div>
+  }
 </div>
 
 <app-message-input (created)="onSendMessage($event)"></app-message-input>
+
