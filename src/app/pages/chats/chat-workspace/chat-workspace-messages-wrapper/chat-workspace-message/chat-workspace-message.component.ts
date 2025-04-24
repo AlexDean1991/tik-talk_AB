@@ -28,4 +28,5 @@ export class ChatWorkspaceMessageComponent {
     localDate.setHours(localDate.getHours() + 3); // Корректно увеличиваем на 3 часа
     return this.datePipe.transform(localDate, 'HH:mm') ?? '';
   }
+
 }
