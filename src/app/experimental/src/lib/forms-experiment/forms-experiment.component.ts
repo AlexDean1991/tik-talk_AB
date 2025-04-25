@@ -1,18 +1,26 @@
 import {Component, inject} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {MockService} from './mock.service';
 
 enum ReceiverType {
   PERSON = 'PERSON',
   LEGAL = 'LEGAL',
 }
 
-function getAddresForm() {
+interface Address {
+    city?: string
+    street?: string
+    building?: number
+    apartment?: number
+}
+
+function getAddressForm(initialValue: Address = {}) {
   return new FormGroup({
-    city: new FormControl<string>(''),
-    street: new FormControl<string>(''),
-    building: new FormControl<number | null>(null),
-    appartment: new FormControl<number | null>(null),
+    city: new FormControl<string>(initialValue.city ?? ''),
+    street: new FormControl<string>(initialValue.street ?? ''),
+    building: new FormControl<number | null>(initialValue.building ?? null),
+    apartment: new FormControl<number | null>(initialValue.apartment ?? null),
   })
 }
 
@@ -25,9 +33,11 @@ function getAddresForm() {
 })
 export class FormsExperimentComponent {
 
-  #fb = inject(FormBuilder) // можно делать формы так
+  // #fb = inject(FormBuilder) // можно делать формы так
 
   ReceiverType = ReceiverType
+
+  mockService = inject(MockService)
 
   // form = this.#fb.group({
   //   type: this.#fb.nonNullable.control<ReceiverType>(ReceiverType.PERSON),
@@ -38,21 +48,33 @@ export class FormsExperimentComponent {
   //     city: this.#fb.control<string>(''),
   //     street: this.#fb.control<string>(''),
   //     building: this.#fb.control<number | null>(null),
-  //     appartment: this.#fb.control<number | null>(null),
+  //     apartment: this.#fb.control<number | null>(null),
   //   })
   // })
 
   form = new FormGroup({
     type: new FormControl<ReceiverType>(ReceiverType.PERSON),
     name: new FormControl<string>('', Validators.required),
-    // name: new FormControl<string>({value: '', disd: true} Validators.required), // можно дизэблить так
+    // name: new FormControl<string>({value: '', disabled: true} Validators.required), // можно дизэблить так
     inn: new FormControl<number | null>(null),
     lastName: new FormControl<string>(''),
-    address: getAddresForm()
+    addresses: new FormArray([getAddressForm()]) // Вот здесь предоставляем вохможность добавлять формы.
+
   });
 
   // в этом конструкторе мы подписываемся на изменение контрола
   constructor() {
+    this.mockService.getAddresses()
+      .pipe(takeUntilDestroyed())
+      .subscribe(addrs => {
+        while (this.form.controls.addresses.controls.length > 0) {
+          this.form.controls.addresses.removeAt(0)
+        }
+
+        for (const addr of addrs) {
+          this.form.controls.addresses.push(getAddressForm(addr))
+        }
+      })
     this.form.controls.type.valueChanges
       .pipe(takeUntilDestroyed()) // не забываем отписываться. Работает в новых ангулярах и только в конструкторе, потому что это Инжекшион контекст
       .subscribe(val => {
@@ -60,9 +82,9 @@ export class FormsExperimentComponent {
         this.form.controls.inn.clearValidators()
 
         if (val === ReceiverType.LEGAL) {
-            this.form.controls.inn.setValidators(
-              [Validators.required, Validators.minLength(10),
-                Validators.maxLength(10)])
+          this.form.controls.inn.setValidators(
+            [Validators.required, Validators.minLength(10),
+              Validators.maxLength(10)])
         }
       })
 
@@ -79,7 +101,7 @@ export class FormsExperimentComponent {
     //     city: 'SPb',
     //     street: 'Central',
     //     building: 12,
-    //     appartment: 3
+    //     apartment: 3
     //   }
     //
     // })
@@ -120,5 +142,15 @@ export class FormsExperimentComponent {
 
     console.log('this form value', this.form.valid)
     console.log('get raw value', this.form.getRawValue()); // если дизэблим один из контролов, здесь он все равно приходит. Полезно, если в этот контрол, например, приходит значение с бэка.
+  }
+
+  addAddress() {
+    // this.form.controls.addresses.push(getAddresForm())
+    this.form.controls.addresses.insert(0, getAddressForm())
+  }
+
+  deleteAdress(index: number) {
+    this.form.controls.addresses.removeAt(index, {emitEvent: false})
+
   }
 }
