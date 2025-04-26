@@ -1,14 +1,24 @@
 import {Component, inject} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormRecord,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MockService} from './mock.service';
+import {Feature} from './mock.service';
+import {AsyncPipe, KeyValuePipe} from '@angular/common';
 
 enum ReceiverType {
   PERSON = 'PERSON',
   LEGAL = 'LEGAL',
 }
 
-interface Address {
+export interface Address {
     city?: string
     street?: string
     building?: number
@@ -26,7 +36,7 @@ function getAddressForm(initialValue: Address = {}) {
 
 @Component({
   selector: 'app-forms-experiment',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, KeyValuePipe, AsyncPipe],
   standalone: true,
   templateUrl: './forms-experiment.component.html',
   styleUrl: './forms-experiment.component.scss',
@@ -38,6 +48,9 @@ export class FormsExperimentComponent {
   ReceiverType = ReceiverType
 
   mockService = inject(MockService)
+
+  features: Feature[] = []
+
 
   // form = this.#fb.group({
   //   type: this.#fb.nonNullable.control<ReceiverType>(ReceiverType.PERSON),
@@ -58,7 +71,8 @@ export class FormsExperimentComponent {
     // name: new FormControl<string>({value: '', disabled: true} Validators.required), // можно дизэблить так
     inn: new FormControl<number | null>(null),
     lastName: new FormControl<string>(''),
-    addresses: new FormArray([getAddressForm()]) // Вот здесь предоставляем вохможность добавлять формы.
+    addresses: new FormArray([getAddressForm()]), // Вот здесь предоставляем вохможность добавлять формы.
+    feature: new FormRecord({})
 
   });
 
@@ -67,14 +81,33 @@ export class FormsExperimentComponent {
     this.mockService.getAddresses()
       .pipe(takeUntilDestroyed())
       .subscribe(addrs => {
-        while (this.form.controls.addresses.controls.length > 0) {
-          this.form.controls.addresses.removeAt(0)
-        }
+        // while (this.form.controls.addresses.controls.length > 0) {
+        //   this.form.controls.addresses.removeAt(0)
+        // }
+
+        this.form.controls.addresses.clear()
 
         for (const addr of addrs) {
           this.form.controls.addresses.push(getAddressForm(addr))
         }
+
+        // this.form.controls.addresses.setValue(addrs)
+        // this.form.controls.addresses.setControl(1, getAddressForm(addrs[0])) // тут можно вставить данные с сервера по индексу з формы 0 в форму 1
+        // this.form.controls.addresses.at(0) // можно взять данные из форм контрол по определенному индексу и уже проводить с ним какие-то операции
+        // this.form.controls.addresses.disable() // дизэблим все формконтролы
       })
+    this.mockService.getFeatures()
+      .pipe(takeUntilDestroyed())
+      .subscribe(features => {
+        this.features = features
+
+        for (const feature of features) {
+          this.form.controls.feature.addControl(
+            feature.code,
+            new FormControl(feature.value))
+        }
+      })
+
     this.form.controls.type.valueChanges
       .pipe(takeUntilDestroyed()) // не забываем отписываться. Работает в новых ангулярах и только в конструкторе, потому что это Инжекшион контекст
       .subscribe(val => {
@@ -153,4 +186,6 @@ export class FormsExperimentComponent {
     this.form.controls.addresses.removeAt(index, {emitEvent: false})
 
   }
+
+  sort = () => 0
 }
