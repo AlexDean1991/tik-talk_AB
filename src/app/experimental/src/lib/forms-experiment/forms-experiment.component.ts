@@ -36,7 +36,7 @@ function getAddressForm(initialValue: Address = {}) {
 
 @Component({
   selector: 'app-forms-experiment',
-  imports: [ReactiveFormsModule, KeyValuePipe, AsyncPipe],
+  imports: [ReactiveFormsModule, KeyValuePipe],
   standalone: true,
   templateUrl: './forms-experiment.component.html',
   styleUrl: './forms-experiment.component.scss',

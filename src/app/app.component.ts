@@ -7,7 +7,7 @@ import {NoReactValidator} from './no-react.validator';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, JsonPipe, NoReactValidator],
+  imports: [RouterOutlet, FormsModule],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'

@@ -10,6 +10,7 @@ import { SubscribersComponent } from './pages/subscribers/subscribers.component'
 import { ChatsPageComponent } from './pages/chats/chats.component';
 import { chatsRoutes } from './pages/chats/chatsRoutes';
 import { FormsExperimentComponent } from './experimental/src/lib/forms-experiment/forms-experiment.component';
+import {MyFormComponent} from './experimental/src/lib/my-form/my-form.component';
 
 // @ts-ignore
 // @ts-ignore
@@ -25,6 +26,7 @@ export const routes: Routes = [
       { path: 'mypage', component: MyPageComponent },
       { path: 'subscribers', component: SubscribersComponent },
       { path: 'experimental', component: FormsExperimentComponent },
+      { path: 'my-form', component: MyFormComponent },
       { path: 'chats', loadChildren: () => chatsRoutes },
     ],
     canActivate: [canActivateAuth],
