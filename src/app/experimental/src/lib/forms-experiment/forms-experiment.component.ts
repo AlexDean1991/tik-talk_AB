@@ -22,7 +22,7 @@ export interface Address {
     city?: string
     street?: string
     building?: number
-    apartment?: number
+    appartment?: number
 }
 
 function getAddressForm(initialValue: Address = {}) {
@@ -30,7 +30,7 @@ function getAddressForm(initialValue: Address = {}) {
     city: new FormControl<string>(initialValue.city ?? ''),
     street: new FormControl<string>(initialValue.street ?? ''),
     building: new FormControl<number | null>(initialValue.building ?? null),
-    apartment: new FormControl<number | null>(initialValue.apartment ?? null),
+    appartment: new FormControl<number | null>(initialValue.appartment ?? null),
   })
 }
 
@@ -61,7 +61,7 @@ export class FormsExperimentComponent {
   //     city: this.#fb.control<string>(''),
   //     street: this.#fb.control<string>(''),
   //     building: this.#fb.control<number | null>(null),
-  //     apartment: this.#fb.control<number | null>(null),
+  //     appartment: this.#fb.control<number | null>(null),
   //   })
   // })
 
@@ -134,7 +134,7 @@ export class FormsExperimentComponent {
     //     city: 'SPb',
     //     street: 'Central',
     //     building: 12,
-    //     apartment: 3
+    //     appartment: 3
     //   }
     //
     // })
