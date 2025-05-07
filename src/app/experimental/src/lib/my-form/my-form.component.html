@@ -23,7 +23,16 @@
       type="text"
       placeholder="Введите имя"
     />
+<!--    <small class="txt-error">Это поле нужно заполнить</small>-->
   </label>
+
+  @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+  <small class="txt-error">Это поле нужно заполнить</small>
+  }
+    @if (form.controls.name.touched && form.controls.name.hasError('startsWith')) {
+    <small>{{ form.controls.name.getError('startsWith') }}</small>
+    }
+
 
   <label class="tt-control-label mb16">
     Фамилия
@@ -40,8 +49,8 @@
       <h4 class="h6 mb16">Адрес</h4>
     </div>
 
-
-      <div class="form-grid" formGroupName="addresses">
+    @for (group of form.controls.addresses.controls; track group; let i = $index) {
+      <div class="form-grid" [formGroup]="group">
         <label class="tt-control-label">
           Город
           <input
@@ -83,6 +92,7 @@
         </label>
 
       </div>
+    }
 
   </div>
 

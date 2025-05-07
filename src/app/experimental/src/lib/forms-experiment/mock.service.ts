@@ -22,12 +22,6 @@ export class MockService {
         building: 1,
         apartment: 101
       },
-      {
-        city: 'Los Angeles',
-        street: 'Sunset Blvd',
-        building: 20,
-        apartment: 305
-      }
     ];
 
     return of(addresses);
