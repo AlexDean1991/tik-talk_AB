@@ -11,9 +11,10 @@ import {
 } from '@angular/forms';
 import {MockService} from '../forms-experiment/mock.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {NameValidator} from './name.validator';
 
 
-    enum RecieverType {
+enum RecieverType {
       Bugulma = 'Bugulma',
       Almet = 'Almet',
       Leninogorsk = 'Leninogorsk',
@@ -36,12 +37,32 @@ function getAddressFrom(initialValue: Address = {}) {
   })
 }
 
+function validateStartWith(forbiddenLetter: string): ValidatorFn {
+      return (control: AbstractControl): { [key: string]: any } | null => {
+        return control.value?.startsWith(forbiddenLetter)
+          ? {startsWith: {message: `${forbiddenLetter} - последняя буква алфавита!`}}
+          : null
+      }
+}
 
-// как создавать свои валидаторы
-const validateStartWith: ValidatorFn = (control: AbstractControl) => {
-  return control.value?.startsWith('я')
-  ? {startsWith: 'Я - последняя буква алфавита!'}
-    : null
+function validateDateRage({fromControlName, toControlName}: {fromControlName: string, toControlName: string}) {
+      return (control: AbstractControl) => {
+        const fromControl = control.get(fromControlName)
+        const toControl = control.get(toControlName)
+
+        if (!fromControl || !toControl) return null
+
+        const fromDate = new Date(fromControl.value)
+        const toDate = new Date(toControl.value)
+
+        if (fromDate && toDate && fromDate > toDate) {
+          toControl.setErrors({dateRange: {message: 'Дата неправильная'}})
+          return {dateRange: {message: 'Дата неправильная'}}
+        }
+
+        return null
+
+      }
 }
 
 @Component({
@@ -57,13 +78,22 @@ const validateStartWith: ValidatorFn = (control: AbstractControl) => {
 export class MyFormComponent {
 
   RecieverType = RecieverType
-  mockService = inject(MockService)
+  mockService = inject(MockService);
+  nameValidator = inject(NameValidator);
 
   form = new FormGroup({
     type: new FormControl<RecieverType>(RecieverType.Bugulma),
-    name: new FormControl<string>('', [Validators.required, validateStartWith]),
+    name: new FormControl<string>('', {
+      validators: [Validators.required],
+      asyncValidators: [this.nameValidator.validate.bind(this.nameValidator)],
+      updateOn: 'blur'
+    }),
     lastName: new FormControl<string>(''),
-    addresses: new FormArray([getAddressFrom()])
+    addresses: new FormArray([getAddressFrom()]),
+    dateRange: new FormGroup({
+      from: new FormControl<string>(''),
+      to: new FormControl<string>(''),
+    }, validateDateRage({fromControlName: 'from', toControlName: 'to'}))
   })
 
   constructor() {

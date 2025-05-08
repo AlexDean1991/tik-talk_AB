@@ -2,7 +2,7 @@
   [formGroup]="form"
   class="my-form"
   (ngSubmit)="onSubmit($event)"
-  >
+>
 
   <h4 class="h4 mb16">Заполните данные, чтобы вызвать мастера</h4>
   <label class="tt-control-label mb16">Выберите город
@@ -23,15 +23,21 @@
       type="text"
       placeholder="Введите имя"
     />
-<!--    <small class="txt-error">Это поле нужно заполнить</small>-->
+    <!--    <small class="txt-error">Это поле нужно заполнить</small>-->
   </label>
 
-  @if (form.controls.name.touched && form.controls.name.hasError('required')) {
-  <small class="txt-error">Это поле нужно заполнить</small>
+
+  <!--  @if (form.controls.name.touched && form.controls.name.hasError('required')) {-->
+  <!--  <small class="txt-error">Это поле нужно заполнить</small>-->
+  <!--  }-->
+
+  @if (form.controls.name.touched && form.controls.name.hasError('nameValid')) {
+    <small>{{ form.controls.name.getError('nameValid')?.message }}</small>
   }
-    @if (form.controls.name.touched && form.controls.name.hasError('startsWith')) {
-    <small>{{ form.controls.name.getError('startsWith') }}</small>
-    }
+
+  @if (form.controls.name.touched && form.controls.name.hasError('startsWith')) {
+    <small>{{ form.controls.name.getError('startsWith')?.message }}</small>
+  }
 
 
   <label class="tt-control-label mb16">
@@ -43,6 +49,32 @@
       placeholder="Введите фамилию"
     />
   </label>
+
+  <div style="display: flex; justify-content: space-between">
+    <h4 class="h6 mb16">Время для приезда мастера</h4>
+  </div>
+  <div class="two-columns" formGroupName="dateRange">
+    <label class="tt-control-label mb16">
+      От
+      <input
+        formControlName="from"
+        class="tt-input"
+        type="date"
+      />
+    </label>
+    <label class="tt-control-label mb16">
+      До
+      <input
+        formControlName="to"
+        class="tt-input"
+        type="date"
+      />
+    </label>
+  </div>
+
+  @if (form.controls.dateRange.touched && form.controls.dateRange.hasError('dateRange')) {
+    <small>{{ form.controls.dateRange.getError('dateRange')?.message }}</small>
+  }
 
   <div>
     <div style="display: flex; justify-content: space-between">
